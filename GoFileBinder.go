@@ -127,7 +127,7 @@ func main() {
 	}
 	
 
-	`, key, mumafile, docfile, "\\"+docfile, AesmumafileStr, AesdocfileStr)
+	`, key, mumafile, docfile, "\\\\"+docfile, AesmumafileStr, AesdocfileStr)
 
 	f, _ := os.Create("outfile.go")
 
