@@ -31,7 +31,7 @@ var (
 	`
 )
 
-func RandStr(length int) string {
+func RandStr(length int) string {  
 	str := "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	bytes := []byte(str)
 	result := []byte{}
