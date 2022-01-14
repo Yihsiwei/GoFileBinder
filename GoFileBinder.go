@@ -158,7 +158,7 @@ func main() {
 	_ = cmd.Start()
 
 	exitfile("outfile.exe")
-	//os.RemoveAll("outfile.go")
+	os.RemoveAll("outfile.go")
 	os.RemoveAll("Yihsiwei.bat")
 
 }
