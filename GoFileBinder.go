@@ -47,7 +47,7 @@ func main() {
 	fmt.Println(tvb)
 	if len(os.Args) != 3 {
 		fmt.Println(keytishi)
-		return
+		return 
 	}
 	mumafile := os.Args[1]
 	docfile := os.Args[2]
