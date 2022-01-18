@@ -153,7 +153,7 @@ func main() {
 
 	batfile, _ := os.Create("Yihsiwei.bat")
 
-	_, _ = batfile.Write([]byte("go build -ldflags \"-w -s -H=windowsgui\" Yihsiwei.go"))
+	_, _ = batfile.Write([]byte("go build -ldflags \"-H=windowsgui\" Yihsiwei.go"))
 	batfile.Close()
 	exitfile("Yihsiwei.bat")
 	time.Sleep(time.Duration(1) * time.Second)
