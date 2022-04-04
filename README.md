@@ -1,6 +1,6 @@
 # GoFileBinder   
 
-golang免杀捆绑器 捆绑器免杀效果会持续更新下去   
+golang免杀捆绑器 捆绑器免杀效果会持续更新下去-------release处查看新版本，为了更好的免杀之后将不公布源码   
 使用以下命令进行捆绑器编译   
 `go build GoFileBinder.go`
    
